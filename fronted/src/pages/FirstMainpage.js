@@ -70,7 +70,7 @@ function FirstMainpage() {
   return (
     <div className="bg-custom-blue min-h-screen">
       {/* Navbar */}
-      <div className="flex justify-between items-center p-4  shadow-lg shadow-blue-600">
+      <div className="flex justify-between items-center p-4  shadow-md shadow-blue-300">
         <div className="flex  text-3xl items-center space-x-4">
           <a
             href="/"
@@ -147,7 +147,7 @@ function FirstMainpage() {
         </p>
 
         {loading ? (
-          <p className="text-white mt-4">User Not Authenticated </p>
+          <p className="text-white mt-4"> </p>
         ) : error ? (
           <p className="text-red-600 mt-4">{error}</p>
         ) : userData ? (
