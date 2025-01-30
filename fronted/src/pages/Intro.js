@@ -19,14 +19,14 @@ function Intro({ introhomes }) {
         {/* Text Section */}
         <div className="sm:w-2/4 w-full flex flex-col justify-center items-center text-center sm:text-left px-6 sm:px-10">
           <p className="text-transparent bg-clip-text bg-custom-blue text-lg sm:text-3xl break-words">
-            {introhomes[0]?.welcomeText || "Welcome to my Portfolio"}
+            {introhomes[0]?.welcomeText }
           </p>
           <p className="text-transparent bg-clip-text bg-custom-blue text-4xl sm:text-5xl sm:pt-4 font-semibold">
-            {introhomes[0]?.firstName || "Your Name"} {introhomes[0]?.lastName || ""}
+            {introhomes[0]?.firstName } {introhomes[0]?.lastName }
           </p>
           <hr className="my-4 w-16 mx-auto sm:mx-0 border-t-2 border-pink-900" />
           <p className="text-black text-sm sm:text-md font-bold sm:py-7">
-            {introhomes[0]?.description || "A brief description about yourself."}
+            {introhomes[0]?.description }
           </p>
           <button
             className="border-2 border-pink-900 text-pink-900 hover:bg-pink-900 hover:text-white py-3 px-10 mt-6 bg-white rounded-lg shadow-lg transition-all duration-300 hover:scale-105"

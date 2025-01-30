@@ -99,58 +99,55 @@ router.get("/userdata",authenticateToken, async (req, res) => {
 
 
 router.put("/update-intro", authenticateToken, checkAdminMiddleWare, async (req, res) => {
-    try {
-      console.log(req.body);
+  try {
+    console.log("req.body::: ", req.body);
+
+    const { welcomeText, firstName, lastName, description } = req.body;
+    console.log("first Name:", firstName);
+
+    // Validate all fields
+    if (!welcomeText || !firstName || !lastName || !description) {
+      return res.status(400).send({ message: "All fields are required." });
+    }
+
+    // Count the number of documents in the IntroHome collection
+    const introCount = await IntroHome.countDocuments();
+    console.log("introCount:", introCount);
+
+    if (introCount <=1)  {
       
-      const { welcomeText, firstName, lastName, description } = req.body;
-  
-      if (!welcomeText || !firstName || !lastName || !description) {
-        return res.status(400).send({ message: "All fields are required." });
-      }
-  
-      // Find the user from the email (assuming email comes from JWT token)
-      const userEmail = req.user.email;
-      console.log("userEmail",userEmail);
+       console.log("firstName kaha hai :",firstName);
+       
+      const introDocument = await IntroHome.findOne({firstName:firstName}); // Replace with actual ID
+      console.log("introDocument : ",introDocument);
       
-      const user = await User.findOne({ email: userEmail });
-      if (!user) {
-        return res.status(404).send({ message: "User not found." });
-      }
-      console.log("User",user);
-      
-  
-      
-      // Get the user ID
-      const userIdFromUserCollection = user._id;
-      console.log("userIdFromUserCollection: ",userIdFromUserCollection);
-      
-  
-      // Find and update the intro document
-      const introDocument = await IntroHome.findOneAndUpdate(
-        { user: userIdFromUserCollection }, // Match by user ID
-        { $set: { welcomeText, firstName, lastName, description } }, // Update fields
-        { new: true ,upsert: true} // Return the updated document
-      );
-      console.log("introDocument: ",introDocument);
-      
-  
-      // // If no intro document found, send an error
+
       if (!introDocument) {
         return res.status(404).send({ message: "Intro document not found." });
       }
-  
-      // Send the updated intro document in the response
+
+      // Update the document if found
+      introDocument.welcomeText = welcomeText;
+      introDocument.firstName = firstName;
+      introDocument.lastName = lastName;
+      introDocument.description = description;
+
+      await introDocument.save();
+
       res.status(200).send({
         data: introDocument,
         success: true,
-        message: "Intro updated successfully"
+        message: "Intro document updated successfully",
+        introCount,  // Send the count of documents
       });
-  
-    } catch (error) {
-      res.status(500).send({ message: error.message });
     }
-  });
-  
+
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+
 
 
 

@@ -2,29 +2,35 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // IntroHome Schema
-const introHomeSchema = new Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,  // References the User model
-        ref: 'User',
-        required: true,
-      },
-  welcomeText: {
-    type: String,
-    required: true,
+const introHomeSchema = new Schema(
+  {
+    welcomeText: {
+      type: String,
+      required: [true, "Welcome text is required."]
+    },
+    firstName: {
+      type: String,
+      required: [true, "First name is required."],
+      trim: true,unique: true,
+      maxlength: [50, "First name must be less than 50 characters."],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last name is required."],
+      trim: true,
+      maxlength: [50, "Last name must be less than 50 characters."],
+    },
+    description: {
+      type: String,
+      required: [true, "Description is required."]
+    }
+    // profilePicture: {
+      // data: Buffer,
+      // contentType: String,
+    // },
   },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 // About Schema
 const aboutSchema = new Schema({
